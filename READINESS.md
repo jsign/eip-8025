@@ -5,15 +5,15 @@
 
 Status tracks the standard itself; implementation is tracked in the guest program and zkVM tables below.
 
-| Standard                                                                         | Status     |
-| -------------------------------------------------------------------------------- | ---------- |
-| [Host randomness](https://github.com/eth-act/zkevm-standards/pull/42)            | 🟡 Proposed |
-| [Proving cost estimation](https://github.com/eth-act/zkevm-standards/pull/36)    | 🟡 Proposed |
-| [Logging function](https://github.com/eth-act/zkevm-standards/pull/27)           | 🟡 Proposed |
-| [Keccak-f[1600] permutation](https://github.com/eth-act/zkevm-standards/pull/26) | 🟡 Proposed |
-| [U256 interface](https://github.com/eth-act/zkevm-standards/pull/22)             | 🟡 Proposed |
-| [Minimum memory resources](https://github.com/eth-act/zkevm-standards/pull/20)   | 🟡 Proposed |
-| Open issues (excluding PRs) | [12](https://github.com/eth-act/zkevm-standards/issues?q=is%3Aissue%20is%3Aopen) as of September 18, 2026 |
+| Standard                                                                         | Status                                                                                                    |
+| -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| [Host randomness](https://github.com/eth-act/zkevm-standards/pull/42)            | 🟡 Proposed                                                                                                |
+| [Proving cost estimation](https://github.com/eth-act/zkevm-standards/pull/36)    | 🟡 Proposed                                                                                                |
+| [Logging function](https://github.com/eth-act/zkevm-standards/pull/27)           | 🟡 Proposed                                                                                                |
+| [Keccak-f[1600] permutation](https://github.com/eth-act/zkevm-standards/pull/26) | 🟡 Proposed                                                                                                |
+| [U256 interface](https://github.com/eth-act/zkevm-standards/pull/22)             | 🟡 Proposed                                                                                                |
+| [Minimum memory resources](https://github.com/eth-act/zkevm-standards/pull/20)   | 🟡 Proposed                                                                                                |
+| Open issues (excluding PRs)                                                      | [12](https://github.com/eth-act/zkevm-standards/issues?q=is%3Aissue%20is%3Aopen) as of September 18, 2026 |
 
 ## Guest programs
 
@@ -150,12 +150,59 @@ The other reviewed rows remain unknown:
 
 ✅ Done · 🟡 Partial · ⏳ Pending · ❓ Unknown
 
-| Requirement                                                                                                    | Ethrex | Reth | Besu | Nethermind | Nimbus | Geth | Erigon |
-| -------------------------------------------------------------------------------------------------------------- | ------ | ---- | ---- | ---------- | ------ | ---- | ------ |
-| Integrate into [EEST execution witness dashboard](https://github.com/eth-act/eest-execution-witness-dashboard) | ❓      | ❓    | ❓    | ❓          | ❓      | ❓    | ❓      |
-| Implement `engine_newPayloadWithWitness{V4, V5}`                                                               | ❓      | ❓    | ❓    | ❓          | ❓      | ❓    | ❓      |
-| Implements `debug_executionWitness` RPC                                                                        | ❓      | ❓    | ❓    | ❓          | ❓      | ❓    | ❓      |
-| Implement REST+SSZ API                                                                                         | ⏳      | ⏳    | ⏳    | ⏳          | ⏳      | ⏳    | ⏳      |
+| Requirement                                                                                                    | Ethrex                    | Reth | Besu | Nethermind                    | Nimbus                    | Geth                      | Erigon |
+| -------------------------------------------------------------------------------------------------------------- | ------------------------- | ---- | ---- | ----------------------------- | ------------------------- | ------------------------- | ------ |
+| Integrate into [EEST execution witness dashboard](https://github.com/eth-act/eest-execution-witness-dashboard) | [✅][el-dashboard-results] | ❓    | ❓    | [✅][el-dashboard-results]     | [✅][el-dashboard-results] | [✅][el-dashboard-results] | ❓      |
+| Implement `engine_newPayloadWithWitness{V4, V5}`                                                               | 🟡                         | ❓    | ❓    | [✅][el-nethermind-payload-v4] | [✅][el-nimbus-payload]    | [✅][el-geth-payload]      | ❓      |
+| Implement [`debug_executionWitness` RPC](https://github.com/ethereum/execution-apis/pull/847)                  | 🟡                         | 🟡    | ❓    | ❓                             | 🟡                         | 🟡                         | 🟡      |
+| Implement [`POST /engine/v1/payloads/witness`](https://github.com/ethereum/execution-apis/pull/885))           | ⏳                         | ⏳    | ⏳    | ⏳                             | ⏳                         | ⏳                         | ⏳      |
+
+Notes below apply only to non-green statuses.
+
+### Ethrex
+
+- **`engine_newPayloadWithWitness{V4, V5}` — 🟡:** Waiting for [PR #7286](https://github.com/lambdaclass/ethrex/pull/7286) to be merged.
+- **`debug_executionWitness` RPC — 🟡:** The [method][el-ethrex-debug] accepts block numbers/tags, with block hashes handled by a separate method. The proposal requires accepting hashes through the same method.
+
+### Reth
+
+- **EEST execution witness dashboard integration — ❓:** Waiting for [PR #27083](https://github.com/paradigmxyz/reth/pull/27083) to be merged so Reth can be added to the EL dashboard.
+- **`debug_executionWitness` RPC — 🟡:** The [witness format defaults to legacy][el-reth-witness-mode]; the proposal requires canonical output when no format parameter is supplied.
+
+### Besu
+
+- **`debug_executionWitness` RPC — ❓:** An [implementation exists][el-besu-debug], but full conformance with the proposed canonical witness requirements was not established.
+
+### Nethermind
+
+- **`debug_executionWitness` RPC — ❓:** An [implementation exists][el-nethermind-debug], but full conformance with the proposed canonical witness requirements was not established.
+
+### Nimbus
+
+- **`debug_executionWitness` RPC — 🟡:** The [method][el-nimbus-debug] accepts block numbers/tags, with block hashes handled by a separate method. The proposal requires accepting hashes through the same method.
+
+### Geth
+
+- **`debug_executionWitness` RPC — 🟡:** The [RPC returns `ExtWitness`][el-geth-debug], whose [`headers` field][el-geth-witness-encoding] contains JSON header objects rather than the required RLP bytes.
+
+### Erigon
+
+- **`debug_executionWitness` RPC — 🟡:** The [witness format defaults to legacy][el-erigon-debug]; the proposal requires canonical output when no format parameter is supplied.
+
+[el-dashboard-results]: https://eth-act.github.io/eest-execution-witness-dashboard/listing.jsonl
+[el-ethrex-payload]: https://github.com/lambdaclass/ethrex/blob/9ac97c8e89c4318813f40c828e7ad52d0322ff74/crates/networking/rpc/rpc.rs#L1481-L1493
+[el-nethermind-payload-v4]: https://github.com/NethermindEth/nethermind/blob/93ca2644a45d1385d55e06d93a633408b4432c6f/src/Nethermind/Nethermind.Merge.Plugin/EngineRpcModule.Prague.cs#L25-L31
+[el-nethermind-payload-v5]: https://github.com/NethermindEth/nethermind/blob/93ca2644a45d1385d55e06d93a633408b4432c6f/src/Nethermind/Nethermind.Merge.Plugin/EngineRpcModule.Amsterdam.cs#L32-L38
+[el-nimbus-payload]: https://github.com/status-im/nimbus-eth1/blob/08aec3a4c9709e8402b5630cbf64e5ed09b5b56d/execution_chain/rpc/engine_api.nim#L110-L140
+[el-geth-payload]: https://github.com/ethereum/go-ethereum/blob/aa1f2fcf512988eb8890d9352e601b898d6fdb2c/eth/catalyst/witness.go#L139-L187
+[el-ethrex-debug]: https://github.com/lambdaclass/ethrex/blob/5b611f12483b31ef6bf39370d6c59a29e1e7f804/crates/networking/rpc/debug/execution_witness.rs#L7-L34
+[el-reth-witness-mode]: https://github.com/paradigmxyz/reth/blob/0032bec310b1531dc24d6b5bfeffa690eb35531a/crates/trie/common/src/execution_witness.rs#L1-L27
+[el-nimbus-debug]: https://github.com/status-im/nimbus-eth1/blob/5dfdf626b88baefd4754580ca5a5e058efa3172b/execution_chain/rpc/debug.nim#L263-L276
+[el-geth-debug]: https://github.com/ethereum/go-ethereum/blob/a5b90d2a28e8b68c2d6c335e17af4c64e23f7323/eth/api_debug.go#L510-L532
+[el-geth-witness-encoding]: https://github.com/ethereum/go-ethereum/blob/a5b90d2a28e8b68c2d6c335e17af4c64e23f7323/core/stateless/encoding.go#L97-L102
+[el-erigon-debug]: https://github.com/erigontech/erigon/blob/ae4e8e4e12252a1da1e6e025fe172fc897dd0851/rpc/jsonrpc/debug_execution_witness.go#L551-L575
+[el-besu-debug]: https://github.com/besu-eth/besu/blob/7e05c2342404d27bd06a992e336c5e0c86a5d8d1/ethereum/api/src/main/java/org/hyperledger/besu/ethereum/api/jsonrpc/internal/methods/DebugExecutionWitness.java
+[el-nethermind-debug]: https://github.com/NethermindEth/nethermind/blob/364eaaf0315525b1217d062fdd7ef8d615ea3e5a/src/Nethermind/Nethermind.JsonRpc/Modules/DebugModule/DebugRpcModule.cs#L907-L927
 
 ## Specs
 
