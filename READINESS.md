@@ -208,19 +208,19 @@ Notes below apply only to non-green statuses.
 
 ### Execution layer (EL)
 
-| Item                           | Status | Next step / link                                                                  |
-| ------------------------------ | ------ | --------------------------------------------------------------------------------- |
-| REST+SSZ execution API specs   | 🟡      | [execution-apis#885](https://github.com/ethereum/execution-apis/pull/885)         |
+| Item                           | Status | Next step / link                                                                         |
+| ------------------------------ | ------ | ---------------------------------------------------------------------------------------- |
+| REST+SSZ execution API specs   | 🟡      | [execution-apis#885](https://github.com/ethereum/execution-apis/pull/885)                |
 | `debug_executionWitness` spec  | 🟡      | Merge pending: [execution-apis#847](https://github.com/ethereum/execution-apis/pull/847) |
-| Execution specs                | ✅      | [Implementation](https://github.com/ethereum/execution-specs/tree/projects/zkevm) |
-| High-coverage tests            | ✅      | [Test releases](https://github.com/ethereum/execution-specs/releases)             |
-| Merge execution specs upstream | 🟡      | Await acceptance                                                                  |
+| Execution specs                | ✅      | [Implementation](https://github.com/ethereum/execution-specs/tree/projects/zkevm)        |
+| High-coverage tests            | ✅      | [Test releases](https://github.com/ethereum/execution-specs/releases)                    |
+| Merge execution specs upstream | 🟡      | Await acceptance                                                                         |
 
 ### Consensus layer (CL)
 
 | Item                                      | Status     | Spec / pending PR                                                                                                                                                   |
 | ----------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Main consensus specs                      | ✅ Merged   | [`consensus-specs/specs/_features/eip8025`](https://github.com/ethereum/consensus-specs/tree/master/specs/_features/eip8025) |
+| Main consensus specs                      | ✅ Merged   | [`consensus-specs/specs/_features/eip8025`](https://github.com/ethereum/consensus-specs/tree/master/specs/_features/eip8025)                                        |
 | Refine `ProofData` and gossip validation  | 🟡 Proposed | [consensus-specs#5593](https://github.com/ethereum/consensus-specs/pull/5593)                                                                                       |
 | Validation-only Proof Engine              | 🟡 Draft    | [consensus-specs#5639](https://github.com/ethereum/consensus-specs/pull/5639); depends on #5593; removes the prover guide and proof-generation/retrieval interfaces |
 | Recursive execution proof guest           | 🟡 Draft    | [consensus-specs#5534](https://github.com/ethereum/consensus-specs/pull/5534)                                                                                       |
@@ -228,8 +228,12 @@ Notes below apply only to non-green statuses.
 
 ## Benchmarks & repricings
 
-TODO:
-- Be able to fill EEST worst-case benchmarks with external EL (done)
-- Table with zkVMxguestprogram for mainnet blocks (maybe try to figure out with https://han0110.github.io/zkevm-prof/)
-- same with latest test-zkevm eest worst cases (ditto above)
-- Link worst cases with repricing analysis using evm-gasfit (pending)
+✅ Done · ⏳ Pending
+
+| Item                                              | Status | Next step / link |
+| ------------------------------------------------- | ------ | ---------------- |
+| Fill benchmark test fixtures                      | ✅      | [Execution-specs releases](https://github.com/ethereum/execution-specs/releases) with `test-zkevm` in the name |
+| Support filling EEST benchmarks with external ELs  | ✅      | [Execution-specs releases](https://github.com/ethereum/execution-specs/releases) with `tests-zkevm-benchmark` in the name |
+| Mainnet block benchmarks by zkVM and guest program | ⏳      | Build a comparison table; assess [zkevm-prof](https://han0110.github.io/zkevm-prof/) as a data source |
+| EEST worst-case benchmarks by zkVM and guest program | ⏳    | Build a comparison table for the latest `test-zkevm` worst cases; assess [zkevm-prof](https://han0110.github.io/zkevm-prof/) as a data source |
+| Gas repricing analysis for worst cases             | ⏳      | Link worst-case benchmark results to repricing analysis using `evm-gasfit` |
