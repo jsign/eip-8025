@@ -208,14 +208,15 @@ Notes below apply only to non-green statuses.
 
 ✅ Done · 🟡 Partial · ⏳ Pending · ❓ Unknown
 
-| Requirement                                                                                 | Lighthouse                  | Prysm                  | Teku | Nimbus | Lodestar | Grandine |
-| ------------------------------------------------------------------------------------------- | --------------------------- | ---------------------- | ---- | ------ | -------- | -------- |
-| Integrated into `zkboost`                                                                    | 🟡                           | 🟡                      | ❓    | ❓      | ❓        | ❓        |
-| Integrated into [Kurtosis](https://github.com/ethpandaops/ethereum-package/tree/main/src/zkboost) | [✅][cl-lighthouse-kurtosis] | [✅][cl-prysm-kurtosis] | ❓    | ❓      | ❓        | ❓        |
+| Requirement                                                                                 | Lighthouse                                           | Prysm                                           | Teku                                           | Nimbus                                           | Lodestar                                           | Grandine                                           |
+| ------------------------------------------------------------------------------------------- | ---------------------------------------------------- | ----------------------------------------------- | ---------------------------------------------- | ------------------------------------------------ | -------------------------------------------------- | -------------------------------------------------- |
+| EIP-8025 implementation on top of Glamsterdam                                                 | [✅][cl-lighthouse-gloas][^cl-lighthouse-gloas]         | [🟡][cl-prysm-gloas][^cl-prysm-gloas]             | [❓][cl-teku-proofs][^cl-teku-gloas]             | [❓][cl-nimbus-proofs][^cl-nimbus-gloas]           | [❓][cl-lodestar-proofs][^cl-lodestar-gloas]          | [🟡][cl-grandine-proofs][^cl-grandine-gloas]          |
+| Integrated into `zkboost`                                                                    | 🟡                                                    | 🟡                                               | ❓                                              | ❓                                                | ❓                                                  | ❓                                                  |
+| Integrated into [Kurtosis](https://github.com/ethpandaops/ethereum-package/tree/main/src/zkboost) | [✅][cl-lighthouse-kurtosis]                          | [✅][cl-prysm-kurtosis]                          | ❓                                              | ❓                                                | ❓                                                  | ❓                                                  |
 
-Reviewed September 18, 2026. Kurtosis ✅ means an EIP-8025 launch configuration connects the client to zkboost. This was a source review; builds, integration tests, and devnets were not run. The configurations use `optional-proofs` client images.
+Reviewed September 18, 2026. The Glamsterdam row assesses EIP-8025 support for Gloas payloads: ✅ means implemented in the linked branch, 🟡 means partially implemented, and ❓ means a Gloas implementation was not established. It does not require an upstream merge. Kurtosis ✅ means an EIP-8025 launch configuration connects the client to zkboost. This was a source review; builds, integration tests, and devnets were not run. The integration rows still refer to the older `optional-proofs` client images; they do not establish Glamsterdam interoperability. Implementation footnotes track relevant open PRs in the client repositories and the Lighthouse and Grandine forks.
 
-Notes below apply only to non-green statuses.
+Integration notes below apply only to non-green statuses.
 
 ### Lighthouse
 
@@ -227,11 +228,30 @@ Notes below apply only to non-green statuses.
 
 ### Teku, Nimbus, Lodestar, and Grandine
 
-- **Both integrations — ❓:** No client-specific EIP-8025/zkboost integration evidence was found in the reviewed sources. General Kurtosis client support alone does not establish these integrations.
+- **Both integrations — ❓:** A connection to zkboost was not established in the reviewed sources. Lodestar has an [EIP-8025 Kurtosis setup with a dummy prover](https://github.com/ChainSafe/lodestar/blob/cd716e738484822b8735c828f4b43a1925705d52/scripts/eip8025-devnet/README.md), but this does not establish zkboost integration. General Kurtosis client support alone does not establish these integrations.
+
+[cl-lighthouse-gloas]: https://github.com/eth-act/lighthouse/tree/optional-proofs-gloas
+[cl-prysm-gloas]: https://github.com/OffchainLabs/prysm/tree/eip8025-optional-proofs
+[cl-teku-proofs]: https://github.com/Consensys/teku/tree/optional-proofs
+[cl-nimbus-proofs]: https://github.com/status-im/nimbus-eth2/tree/eip8025-initial
+[cl-lodestar-proofs]: https://github.com/ChainSafe/lodestar/tree/optional-proofs
+[cl-grandine-proofs]: https://github.com/eip8025-grandine/grandine/tree/feature/eip8025
 
 [cl-lighthouse-kurtosis]: https://github.com/ethpandaops/ethereum-package/blob/c0db06b29b8266e65c9b80b64895e07058d28d0b/.github/tests/zkboost.yaml
 [cl-prysm-kurtosis]: https://github.com/ethpandaops/ethereum-package/blob/c0db06b29b8266e65c9b80b64895e07058d28d0b/.github/tests/examples/8gpu_zkvm.yaml#L36-L43
 [cl-zkboost-verification]: https://github.com/eth-act/zkboost/blob/v0.9.0/crates/server/src/http/v1/post_execution_proof_verifications.rs#L17-L27
+
+[^cl-lighthouse-gloas]: **Lighthouse — ✅:** `optional-proofs-gloas` at `e676ea54` reconstructs proof inputs from Gloas bids and payload envelopes in its [gossip verification path](https://github.com/eth-act/lighthouse/blob/e676ea5459fc667d5fa4fec2ab4b96fdb79ff844/beacon_node/beacon_chain/src/execution_proof_verification/gossip_verified_execution_proof.rs), with an [in-process proof engine](https://github.com/eth-act/lighthouse/blob/e676ea5459fc667d5fa4fec2ab4b96fdb79ff844/beacon_node/proof_engine/src/lib.rs). Upstream progress: open [#10063](https://github.com/sigp/lighthouse/pull/10063) refactors proof envelopes and verification; draft [#10080](https://github.com/sigp/lighthouse/pull/10080) adds ERE verification and depends on #10063. The latter is also tracked in the fork as draft [eth-act/lighthouse#49](https://github.com/eth-act/lighthouse/pull/49).
+
+[^cl-prysm-gloas]: **Prysm — 🟡:** Both [`optional-proofs-gloas`](https://github.com/OffchainLabs/prysm/tree/optional-proofs-gloas) and the newer `eip8025-optional-proofs` branch contain Gloas work. The latter, reviewed at `8d9d669e`, [derives proof inputs from revealed payloads](https://github.com/OffchainLabs/prysm/blob/8d9d669e711fce81fd7b9f9c9c79b27dc085b667/beacon-chain/blockchain/execution_proof.go). Open draft [#17490](https://github.com/OffchainLabs/prysm/pull/17490) explicitly remains WIP; its Gloas Kurtosis example uses mock proofs and requires the `nalepae/zkboost` fork.
+
+[^cl-teku-gloas]: **Teku — ❓:** `optional-proofs` at `3828963a` contains a [prototype generator](https://github.com/Consensys/teku/blob/3828963a9a334a8960200700d5e9832c094f2592/ethereum/statetransition/src/main/java/tech/pegasys/teku/statetransition/executionproofs/ExecutionProofGeneratorImpl.java) that uses Electra schemas, reads the payload from the beacon block body, and generates dummy proofs. This does not establish support for Gloas payload envelopes. No relevant open EIP-8025 PR was found in `Consensys/teku`.
+
+[^cl-nimbus-gloas]: **Nimbus — ❓:** Open draft [#8004](https://github.com/status-im/nimbus-eth2/pull/8004), from `eip8025-initial` into `optional-proofs`, tracks the initial implementation. At `9afbef91`, its [proof types](https://github.com/status-im/nimbus-eth2/blob/9afbef91191a42f4cf563d71bfa28c6acfb81924/beacon_chain/spec/datatypes/eip8025.nim) use Deneb payloads and Electra requests, and its [proof engine](https://github.com/status-im/nimbus-eth2/blob/9afbef91191a42f4cf563d71bfa28c6acfb81924/beacon_chain/spec/proof_engine.nim) has placeholder verification. Gloas support was not established; the PR still lists proof storage, validation, and prover plumbing as TODOs.
+
+[^cl-lodestar-gloas]: **Lodestar — ❓:** `optional-proofs` at `cd716e73` contains an EIP-8025 prototype, but its [proof-input construction](https://github.com/ChainSafe/lodestar/blob/cd716e738484822b8735c828f4b43a1925705d52/packages/beacon-node/src/chain/eip8025/newPayloadRequestHeader.ts) still selects the Deneb payload schema for every fork from Deneb onward. Gloas proof support was not established. No relevant open EIP-8025 PR was found in `ChainSafe/lodestar`.
+
+[^cl-grandine-gloas]: **Grandine — 🟡:** `feature/eip8025` at `2be90a1e` includes proof containers and [Gloas-specific payload binding](https://github.com/eip8025-grandine/grandine/blob/2be90a1e41dedf9afbeb8555886380bdde1332f1/types/src/eip8025/container_impls.rs). Open fork PRs track [BLS signing (#7)](https://github.com/eip8025-grandine/grandine/pull/7), the [proof-engine skeleton (#9)](https://github.com/eip8025-grandine/grandine/pull/9), [proof state (#10)](https://github.com/eip8025-grandine/grandine/pull/10), [task plumbing (#11)](https://github.com/eip8025-grandine/grandine/pull/11), and [verifier/prover separation (#15)](https://github.com/eip8025-grandine/grandine/pull/15); draft [#3](https://github.com/eip8025-grandine/grandine/pull/3) adds progressive-list Merkle tests. #15 supersedes the alternative designs in #13/#14. No relevant open EIP-8025 PR was found in upstream `grandinetech/grandine`.
 
 ## Specs
 
