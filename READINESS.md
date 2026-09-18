@@ -211,16 +211,16 @@ Notes below apply only to non-green statuses.
 | Item                           | Status | Next step / link                                                                  |
 | ------------------------------ | ------ | --------------------------------------------------------------------------------- |
 | REST+SSZ execution API specs   | 🟡      | [execution-apis#885](https://github.com/ethereum/execution-apis/pull/885)         |
+| `debug_executionWitness` spec  | 🟡      | Merge pending: [execution-apis#847](https://github.com/ethereum/execution-apis/pull/847) |
 | Execution specs                | ✅      | [Implementation](https://github.com/ethereum/execution-specs/tree/projects/zkevm) |
 | High-coverage tests            | ✅      | [Test releases](https://github.com/ethereum/execution-specs/releases)             |
 | Merge execution specs upstream | 🟡      | Await acceptance                                                                  |
 
 ### Consensus layer (CL)
 
-The main specs are merged in [`consensus-specs/specs/_features/eip8025`](https://github.com/ethereum/consensus-specs/tree/master/specs/_features/eip8025).
-
 | Item                                      | Status     | Spec / pending PR                                                                                                                                                   |
 | ----------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Main consensus specs                      | ✅ Merged   | [`consensus-specs/specs/_features/eip8025`](https://github.com/ethereum/consensus-specs/tree/master/specs/_features/eip8025) |
 | Refine `ProofData` and gossip validation  | 🟡 Proposed | [consensus-specs#5593](https://github.com/ethereum/consensus-specs/pull/5593)                                                                                       |
 | Validation-only Proof Engine              | 🟡 Draft    | [consensus-specs#5639](https://github.com/ethereum/consensus-specs/pull/5639); depends on #5593; removes the prover guide and proof-generation/retrieval interfaces |
 | Recursive execution proof guest           | 🟡 Draft    | [consensus-specs#5534](https://github.com/ethereum/consensus-specs/pull/5534)                                                                                       |
