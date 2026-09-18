@@ -208,10 +208,30 @@ Notes below apply only to non-green statuses.
 
 ✅ Done · 🟡 Partial · ⏳ Pending · ❓ Unknown
 
-| Requirement                                                                                       | Lighthouse | Prysm | Teku | Nimbus | Lodestar | Grandine |
-| ------------------------------------------------------------------------------------------------- | ---------- | ----- | ---- | ------ | -------- | -------- |
-| Integrated into `zkboost`                                                                         | ❓          | ❓     | ❓    | ❓      | ❓        | ❓        |
-| Integrated into [Kurtosis](https://github.com/ethpandaops/ethereum-package/tree/main/src/zkboost) | ❓          | ❓     | ❓    | ❓      | ❓        | ❓        |
+| Requirement                                                                                 | Lighthouse                  | Prysm                  | Teku | Nimbus | Lodestar | Grandine |
+| ------------------------------------------------------------------------------------------- | --------------------------- | ---------------------- | ---- | ------ | -------- | -------- |
+| Integrated into `zkboost`                                                                    | 🟡                           | 🟡                      | ❓    | ❓      | ❓        | ❓        |
+| Integrated into [Kurtosis](https://github.com/ethpandaops/ethereum-package/tree/main/src/zkboost) | [✅][cl-lighthouse-kurtosis] | [✅][cl-prysm-kurtosis] | ❓    | ❓      | ❓        | ❓        |
+
+Reviewed September 18, 2026. Kurtosis ✅ means an EIP-8025 launch configuration connects the client to zkboost. This was a source review; builds, integration tests, and devnets were not run. The configurations use `optional-proofs` client images.
+
+Notes below apply only to non-green statuses.
+
+### Lighthouse
+
+- **Integrated into `zkboost` — 🟡:** The `optional-proofs` branch includes a proof-node client and [zkboost integration tests](https://github.com/eth-act/lighthouse/blob/e81a3165dedfee44b5275cd561cf03281ad1ab1d/testing/proof_engine_zkboost/src/lib.rs). However, the [reviewed client](https://github.com/eth-act/lighthouse/blob/e81a3165dedfee44b5275cd561cf03281ad1ab1d/beacon_node/execution_layer/src/eip8025/proof_node_client.rs#L181-L205) sends verification metadata in query parameters and raw proof bytes in the body. The [zkboost v0.9.0 handler][cl-zkboost-verification], used by the GPU examples, expects an SSZ `ProofVerificationBody` containing the metadata and proof. The request formats need to be aligned and interoperability retested.
+
+### Prysm
+
+- **Integrated into `zkboost` — 🟡:** The `optional-proofs` branch has a [zkboost verification client](https://github.com/OffchainLabs/prysm/blob/c4a6a9b76a08ccfcf77d73447d8150e25cc00114/beacon-chain/verification/verifier_client.go#L18-L41), and the [Kurtosis GPU example][cl-prysm-kurtosis] configures it as a verifier without an EL. It sends the same query-parameter metadata and raw proof body as Lighthouse, so it also needs to adopt the [zkboost v0.9.0 request format][cl-zkboost-verification] and be retested.
+
+### Teku, Nimbus, Lodestar, and Grandine
+
+- **Both integrations — ❓:** No client-specific EIP-8025/zkboost integration evidence was found in the reviewed sources. General Kurtosis client support alone does not establish these integrations.
+
+[cl-lighthouse-kurtosis]: https://github.com/ethpandaops/ethereum-package/blob/c0db06b29b8266e65c9b80b64895e07058d28d0b/.github/tests/zkboost.yaml
+[cl-prysm-kurtosis]: https://github.com/ethpandaops/ethereum-package/blob/c0db06b29b8266e65c9b80b64895e07058d28d0b/.github/tests/examples/8gpu_zkvm.yaml#L36-L43
+[cl-zkboost-verification]: https://github.com/eth-act/zkboost/blob/v0.9.0/crates/server/src/http/v1/post_execution_proof_verifications.rs#L17-L27
 
 ## Specs
 
