@@ -208,17 +208,21 @@ Notes below apply only to non-green statuses.
 
 ✅ Done · 🟡 Partial · ⏳ Pending · ❓ Unknown
 
-| Requirement                                                                                                                   | Lighthouse | Prysm | Teku | Nimbus | Lodestar | Grandine |
-| ----------------------------------------------------------------------------------------------------------------------------- | ---------- | ----- | ---- | ------ | -------- | -------- |
-| Integrated into `zkboost`                                                                                                      | ❓          | ❓     | ❓    | ❓      | ❓        | ❓        |
-| Integrated into [Kurtosis](https://github.com/ethpandaops/ethereum-package/tree/main/src/zkboost)                                  | ❓          | ❓     | ❓    | ❓      | ❓        | ❓        |
+| Requirement                                                                                       | Lighthouse | Prysm | Teku | Nimbus | Lodestar | Grandine |
+| ------------------------------------------------------------------------------------------------- | ---------- | ----- | ---- | ------ | -------- | -------- |
+| Integrated into `zkboost`                                                                         | ❓          | ❓     | ❓    | ❓      | ❓        | ❓        |
+| Integrated into [Kurtosis](https://github.com/ethpandaops/ethereum-package/tree/main/src/zkboost) | ❓          | ❓     | ❓    | ❓      | ❓        | ❓        |
 
 ## Specs
 
 ### Execution layer (EL)
 
-| Item                           | Status | Next step / link                                                                         |
-| ------------------------------ | ------ | ---------------------------------------------------------------------------------------- |
+| Item | Status | Next step / link |
+| ---- | ------ | ---------------- |
+
+| Fill benchmark test fixtures                      | ✅      | [Execution-specs releases](https://github.com/ethereum/execution-specs/releases) with `test-zkevm` in the name |
+| Stateless EEST benchmark releases   | ✅      | [Execution-specs releases](https://github.com/ethereum/execution-specs/releases) with `tests-zkevm-benchmark` in the name                     |
+| Stateful EEST beechmark releases   | 🔴      | Integrate into existing stateful filling infrastructure from STEEL                     |
 | REST+SSZ execution API specs   | 🟡      | [execution-apis#885](https://github.com/ethereum/execution-apis/pull/885)                |
 | `debug_executionWitness` spec  | 🟡      | Merge pending: [execution-apis#847](https://github.com/ethereum/execution-apis/pull/847) |
 | Execution specs                | ✅      | [Implementation](https://github.com/ethereum/execution-specs/tree/projects/zkevm)        |
@@ -239,10 +243,8 @@ Notes below apply only to non-green statuses.
 
 ✅ Done · ⏳ Pending
 
-| Item                                              | Status | Next step / link |
-| ------------------------------------------------- | ------ | ---------------- |
-| Fill benchmark test fixtures                      | ✅      | [Execution-specs releases](https://github.com/ethereum/execution-specs/releases) with `test-zkevm` in the name |
-| Support filling EEST benchmarks with external ELs  | ✅      | [Execution-specs releases](https://github.com/ethereum/execution-specs/releases) with `tests-zkevm-benchmark` in the name |
-| Mainnet block benchmarks by zkVM and guest program | ⏳      | Build a comparison table; assess [zkevm-prof](https://han0110.github.io/zkevm-prof/) as a data source |
-| EEST worst-case benchmarks by zkVM and guest program | ⏳    | Build a comparison table for the latest `test-zkevm` worst cases; assess [zkevm-prof](https://han0110.github.io/zkevm-prof/) as a data source |
-| Gas repricing analysis for worst cases             | ⏳      | Link worst-case benchmark results to repricing analysis using `evm-gasfit` |
+| Item                                                 | Status | Next step / link                                                                                                                              |
+| ---------------------------------------------------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| Mainnet block benchmarks by zkVM and guest program   | ⏳      | Build a comparison table; assess [zkevm-prof](https://han0110.github.io/zkevm-prof/) as a data source                                         |
+| EEST worst-case benchmarks by zkVM and guest program | ⏳      | Build a comparison table for the latest `test-zkevm` worst cases; assess [zkevm-prof](https://han0110.github.io/zkevm-prof/) as a data source |
+| Gas repricing analysis for worst cases               | ⏳      | Link worst-case benchmark results to repricing analysis using `evm-gasfit`                                                                    |
