@@ -204,6 +204,15 @@ Notes below apply only to non-green statuses.
 [el-besu-debug]: https://github.com/besu-eth/besu/blob/7e05c2342404d27bd06a992e336c5e0c86a5d8d1/ethereum/api/src/main/java/org/hyperledger/besu/ethereum/api/jsonrpc/internal/methods/DebugExecutionWitness.java
 [el-nethermind-debug]: https://github.com/NethermindEth/nethermind/blob/364eaaf0315525b1217d062fdd7ef8d615ea3e5a/src/Nethermind/Nethermind.JsonRpc/Modules/DebugModule/DebugRpcModule.cs#L907-L927
 
+## CLs
+
+✅ Done · 🟡 Partial · ⏳ Pending · ❓ Unknown
+
+| Requirement                                                                                                                   | Lighthouse | Prysm | Teku | Nimbus | Lodestar | Grandine |
+| ----------------------------------------------------------------------------------------------------------------------------- | ---------- | ----- | ---- | ------ | -------- | -------- |
+| Integrated into `zkboost`                                                                                                      | ❓          | ❓     | ❓    | ❓      | ❓        | ❓        |
+| Integrated into [Kurtosis](https://github.com/ethpandaops/ethereum-package/tree/main/src/zkboost)                                  | ❓          | ❓     | ❓    | ❓      | ❓        | ❓        |
+
 ## Specs
 
 ### Execution layer (EL)
